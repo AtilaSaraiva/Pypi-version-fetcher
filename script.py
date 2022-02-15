@@ -19,9 +19,11 @@ def get_version(package, url_pattern=URL_PATTERN):
         for release in releases:
             ver = parse(release)
             if not ver.is_prerelease:
-                version = max(version, ver)
-    return version
+                if ver > version:
+                    version = ver
+                    sha256  = j["releases"][release][-1]["digests"]["sha256"]
+    return version, sha256
 
 
 if __name__ == '__main__':
-    print("Django==%s" % get_version('Django'))
+    print("version==%s, sha256==%s" % get_version('swaytools'))
